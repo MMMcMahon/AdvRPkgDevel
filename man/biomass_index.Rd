@@ -24,8 +24,12 @@ biomass_index(
 
 \item{verbose}{Logical indicating whether to print processing messages (default is FALSE)}
 
-\item{...}{Additional arguments passed to \code{cpue()} when computing from
-catch and effort (e.g., \code{method}, \code{gear_factor}).}
+\item{...}{
+  Arguments passed on to \code{\link[=cpue]{cpue}}
+  \describe{
+    \item{\code{gear_factor}}{Numeric adjustment for gear standardization (default is 1)}
+    \item{\code{method}}{Character; one of "ratio" or "log"}
+  }}
 }
 \value{
 A numeric vector of biomass index values
@@ -33,7 +37,19 @@ A numeric vector of biomass index values
 \description{
 Calculates biomass index from CPUE and area swept.
 }
+\details{
+Two modes of use:
+\itemize{
+\item Provide \code{cpue} directly for a simple calculation.
+\item Provide \code{catch} and \code{effort} to compute CPUE first, then scale by area.
+}
+
+Any additional arguments in \code{...} are forwarded to \code{\link[=cpue]{cpue()}}.
+}
 \examples{
 salmon_cpue <- cpue(catch = 2, effort = 2)
 biomass_index(cpue = salmon_cpue, area_swept = 5)
+}
+\seealso{
+\code{\link[=cpue]{cpue()}} to compute CPUE values from raw catch and effort.
 }

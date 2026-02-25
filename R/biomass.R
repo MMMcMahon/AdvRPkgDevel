@@ -5,12 +5,17 @@
 #' @param cpue Numeric vector of CPUE values
 #' @param area_swept Numeric vector of area swept (e.g., km²)
 #' @inheritParams cpue
-#' @param ... Additional arguments passed to `cpue()` when computing from
-#'   catch and effort (e.g., `method`, `gear_factor`).
-#' @param verbose Logical indicating whether to print processing messages (default is FALSE)
+#' @inheritDotParams cpue
+#' @seealso [cpue()] to compute CPUE values from raw catch and effort.
 #' @return A numeric vector of biomass index values
 #' @export
+#' @details
+#' Two modes of use:
 #'
+#' - Provide `cpue` directly for a simple calculation.
+#' - Provide `catch` and `effort` to compute CPUE first, then scale by area.
+#'
+#' Any additional arguments in `...` are forwarded to [cpue()].
 #' @examples
 #' salmon_cpue <- cpue(catch = 2, effort = 2)
 #' biomass_index(cpue = salmon_cpue, area_swept = 5)
