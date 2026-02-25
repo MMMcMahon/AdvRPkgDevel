@@ -8,6 +8,7 @@ output: github_document
 # AdvRPkgDevel
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/MMMcMahon/AdvRPkgDevel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MMMcMahon/AdvRPkgDevel/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of AdvRPkgDevel is to provide a mechanism for me to practise the techniques described in https://andyteucher.ca/dfo-advanced-r-pkgs-2026/package-fundamentals.html
