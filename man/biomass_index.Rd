@@ -13,7 +13,10 @@ biomass_index(cpue = NULL, area_swept, catch = NULL, effort = NULL, ...)
 
 \item{catch}{catch value numeric (passed to cpue)}
 
-\item{effort}{wffort value numeric (passed to cpue)}
+\item{effort}{effort value numeric (passed to cpue)}
+
+\item{...}{Additional arguments passed to \code{cpue()} when computing from
+catch and effort (e.g., \code{method}, \code{gear_factor}).}
 }
 \value{
 A numeric vector of biomass index values
