@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/MMMcMahon/AdvRPkgDevel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MMMcMahon/AdvRPkgDevel/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of AdvRPkgDevel is to provide a mechanism for me to practise
@@ -31,11 +32,6 @@ if (requireNamespace("AdvRPkgDevel", quietly = TRUE)) {
 } else {
   devtools::load_all(".")
 }
-```
-
-    ## ℹ Loading AdvRPkgDevel
-
-``` r
 cpue(catch = 100, effort = 10)
 ```
 
