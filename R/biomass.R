@@ -8,6 +8,7 @@
 #' @param effort effort value numeric (passed to cpue)
 #' @param ... Additional arguments passed to `cpue()` when computing from
 #'   catch and effort (e.g., `method`, `gear_factor`).
+#' @param verbose Logical indicating whether to print processing messages (default is FALSE)
 #' @return A numeric vector of biomass index values
 #' @export
 #'
@@ -19,9 +20,13 @@ biomass_index <- function(
   area_swept,
   catch = NULL,
   effort = NULL,
+  verbose = getOption("fishr.verbose", default = FALSE),
   ...
 ) {
   rlang::check_dots_used()
+  if (verbose) {
+    message("Processing ", length(cpue), " records")
+  }
   if (is.null(cpue) && (!is.null(catch) && !is.null(effort))) {
     cpue <- cpue(catch, effort, ...)
   }

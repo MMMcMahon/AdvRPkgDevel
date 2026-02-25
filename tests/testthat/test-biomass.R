@@ -27,3 +27,9 @@ test_that("biomass_index throws error on invalid input", {
   expect_snapshot(biomass_index("ten", 5), error = TRUE)
   expect_snapshot(biomass_index(10, "five"), error = TRUE)
 })
+
+test_that("cpue uses verbosity when option set to TRUE", {
+  withr::local_options(fishr.verbose = TRUE) # will be reset when this test_that block finishes
+
+  expect_snapshot(cpue(100, 10))
+})
