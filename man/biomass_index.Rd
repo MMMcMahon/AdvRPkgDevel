@@ -18,9 +18,9 @@ biomass_index(
 
 \item{area_swept}{Numeric vector of area swept (e.g., km²)}
 
-\item{catch}{catch value numeric (passed to cpue)}
+\item{catch}{Numeric vector of catch (e.g., kg)}
 
-\item{effort}{effort value numeric (passed to cpue)}
+\item{effort}{Numeric vector of effort (e.g., hours)}
 
 \item{verbose}{Logical indicating whether to print processing messages (default is FALSE)}
 

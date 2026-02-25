@@ -4,8 +4,7 @@
 #'
 #' @param cpue Numeric vector of CPUE values
 #' @param area_swept Numeric vector of area swept (e.g., km²)
-#' @param catch catch value numeric (passed to cpue)
-#' @param effort effort value numeric (passed to cpue)
+#' @inheritParams cpue
 #' @param ... Additional arguments passed to `cpue()` when computing from
 #'   catch and effort (e.g., `method`, `gear_factor`).
 #' @param verbose Logical indicating whether to print processing messages (default is FALSE)
