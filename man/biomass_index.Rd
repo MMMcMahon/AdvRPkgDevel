@@ -18,17 +18,18 @@ biomass_index(
 
 \item{area_swept}{Numeric vector of area swept (e.g., km²)}
 
-\item{catch}{Numeric vector of catch (e.g., kg)}
+\item{catch}{Numeric vector of catch (e.g., \strong{kg})}
 
-\item{effort}{Numeric vector of effort (e.g., hours)}
+\item{effort}{Numeric vector of effort (e.g., \strong{hours})}
 
-\item{verbose}{Logical indicating whether to print processing messages (default is FALSE)}
+\item{verbose}{Logical; print processing info? Default from
+\code{getOption("fishr.verbose", FALSE)}.}
 
 \item{...}{
   Arguments passed on to \code{\link[=cpue]{cpue}}
   \describe{
     \item{\code{gear_factor}}{Numeric adjustment for gear standardization (default is 1)}
-    \item{\code{method}}{Character; one of "ratio" or "log"}
+    \item{\code{method}}{Character; one of \code{"ratio"} or \code{"log"}}
   }}
 }
 \value{
