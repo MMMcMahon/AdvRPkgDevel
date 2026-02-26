@@ -2,18 +2,37 @@
 % Please edit documentation in R/cpue.R
 \name{cpue}
 \alias{cpue}
+\alias{cpue.numeric}
+\alias{cpue.data.frame}
+\alias{cpue.default}
 \title{Calculate Catch Per Unit Effort (CPUE)}
 \usage{
-cpue(
+cpue(catch, ...)
+
+\method{cpue}{numeric}(
   catch,
   effort,
   gear_factor = 1,
   method = c("ratio", "log"),
-  verbose = getOption("fishr.verbose", default = FALSE)
+  verbose = getOption("fishr.verbose", default = FALSE),
+  ...
 )
+
+\method{cpue}{data.frame}(
+  catch,
+  gear_factor = 1,
+  method = c("ratio", "log"),
+  verbose = getOption("fishr.verbose", default = FALSE),
+  ...
+)
+
+\method{cpue}{default}(catch, ...)
 }
 \arguments{
-\item{catch}{Numeric vector of catch (e.g., \strong{kg})}
+\item{catch}{Numeric vector of catch (e.g., \strong{kg}) or a data.frame with
+"catch" and "effort" columns}
+
+\item{...}{Additional arguments passed on to methods}
 
 \item{effort}{Numeric vector of effort (e.g., \strong{hours})}
 
@@ -25,7 +44,7 @@ cpue(
 \code{getOption("fishr.verbose", FALSE)}.}
 }
 \value{
-A numeric vector of CPUE values
+A numeric vector of CPUE values of the class 'cpue_result'
 }
 \description{
 Calculates CPUE from catch and effort data, with optional gear standardization.
