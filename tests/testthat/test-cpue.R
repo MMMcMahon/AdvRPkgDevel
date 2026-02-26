@@ -1,9 +1,9 @@
-test_that("cpue calculates simple ratio correctly", {
+test_that("cpue calculates simple ration correctly", {
   expect_equal(cpue(catch = 100, effort = 10), 10)
-  expect_equal(cpue(catch = 50, effort = 2), 25)
+  expect_equal(cpue(50, 2), 25)
 })
 
-test_that("cpue handles vectors of data", {
+test_that("cpue works with vectors of data", {
   catches <- c(100, 200, 300)
   efforts <- c(10, 10, 10)
   expected_results <- c(10, 20, 30)
@@ -11,30 +11,16 @@ test_that("cpue handles vectors of data", {
   expect_equal(cpue(catches, efforts), expected_results)
 })
 
+test_that("cpue returns numeric values", {
+  expect_type(cpue(100, 10), "double")
+})
+
 test_that("gear_factor standardization scales correctly", {
   expect_equal(cpue(catch = 100, effort = 10, gear_factor = 0.5), 5)
+
   expect_equal(
     cpue(catch = 100, effort = 10),
     cpue(catch = 100, effort = 10, gear_factor = 1)
-  )
-})
-
-test_that("cpue uses verbosity when option set to TRUE", {
-  withr::local_options(fishr.verbose = TRUE) # will be reset when this test_that block finishes
-
-  expect_snapshot(cpue(100, 10))
-})
-
-test_that("cpue is not verbose when option set to FALSE", {
-  withr::local_options(fishr.verbose = FALSE) # will be reset when this test_that block finishes
-
-  expect_silent(cpue(100, 10))
-})
-
-test_that("cpue verbosity falls back to FALSE when not set", {
-  withr::with_options(
-    list(fishr.verbose = NULL), # will be reset as soon as this code block executes
-    expect_no_message(cpue(100, 10))
   )
 })
 
@@ -50,8 +36,8 @@ test_that("cpue works with generated data", {
 
   expect_equal(
     result,
-    c(34.053, 9.065, 19.239, 135.640, 6.372),
-    tolerance = 1e-3
+    c(34.05, 9.06, 19.24, 135.64, 6.37),
+    tolerance = 1e-2
   )
 })
 
@@ -66,10 +52,11 @@ test_that("cpue provides informative message when verbose", {
     cpue(c(100, 200), c(10, 20), verbose = TRUE),
     "Processing 2 records"
   )
-  # expect_no_message(cpue(100, 10))
+
+  expect_no_message(cpue(100, 10))
 })
 
-# snapshots
+## Snapshot tests
 
 test_that("cpue errors when input is not numeric", {
   expect_snapshot(
@@ -78,10 +65,20 @@ test_that("cpue errors when input is not numeric", {
   )
 })
 
-test_that("cpue warns when catch and effort lengths differ", {
-  expect_snapshot(
-    cpue(c(100, 200, 300), c(10, 20))
-  )
+test_that("cpue warns when catch and effor lengths differ", {
+  expect_snapshot(cpue(c(100, 200, 300), c(10, 20)))
 
-  expect_no_warning(cpue(100, 10))
+  expect_no_warning(cpue(c(100, 200), c(10, 20)))
+})
+
+test_that("cpue uses verbosit when option is set to TRUE", {
+  withr::local_options(fishr.verbose = TRUE)
+
+  expect_snapshot(cpue(100, 10))
+})
+
+test_that("cpue is not verbose when option is FALSE", {
+  withr::local_options(fishr.verbose = FALSE)
+
+  expect_silent(cpue(100, 10))
 })

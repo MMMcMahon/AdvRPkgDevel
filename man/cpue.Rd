@@ -13,15 +13,16 @@ cpue(
 )
 }
 \arguments{
-\item{catch}{Numeric vector of catch (e.g., kg)}
+\item{catch}{Numeric vector of catch (e.g., \strong{kg})}
 
-\item{effort}{Numeric vector of effort (e.g., hours)}
+\item{effort}{Numeric vector of effort (e.g., \strong{hours})}
 
 \item{gear_factor}{Numeric adjustment for gear standardization (default is 1)}
 
-\item{method}{Character; one of "ratio" or "log"}
+\item{method}{Character; one of \code{"ratio"} or \code{"log"}}
 
-\item{verbose}{Logical indicating whether to print processing messages (default is FALSE)}
+\item{verbose}{Logical; print processing info? Default from
+\code{getOption("fishr.verbose", FALSE)}.}
 }
 \value{
 A numeric vector of CPUE values
