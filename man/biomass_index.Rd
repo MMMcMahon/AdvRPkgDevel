@@ -2,7 +2,7 @@
 % Please edit documentation in R/biomass.R
 \name{biomass_index}
 \alias{biomass_index}
-\title{Calculate Biomass Index}
+\title{Calculate biomass index}
 \usage{
 biomass_index(
   cpue = NULL,
@@ -16,20 +16,20 @@ biomass_index(
 \arguments{
 \item{cpue}{Numeric vector of CPUE values}
 
-\item{area_swept}{Numeric vector of area swept (e.g., km²)}
+\item{area_swept}{Numeric vector of area swept (e.g., km^2^ )}
 
-\item{catch}{Input data: a numeric vector of catch values, or a data frame
-containing catch and effort columns.}
+\item{catch}{Numeric vector of catch (e.g., \strong{kg})}
 
-\item{effort}{Numeric vector of effort (e.g., hours)}
+\item{effort}{Numeric vector of effort (e.g., \strong{hours})}
 
 \item{verbose}{Logical; print processing info? Default from
 \code{getOption("fishr.verbose", FALSE)}.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=cpue]{cpue}}
+  Arguments passed on to \code{\link[=cpue.numeric]{cpue.numeric}}
   \describe{
-    \item{\code{}}{}
+    \item{\code{gear_factor}}{Numeric adjustment for gear standardization (default is 1)}
+    \item{\code{method}}{Character; one of \code{"ratio"} or \code{"log"}}
   }}
 }
 \value{
@@ -41,16 +41,14 @@ Calculates biomass index from CPUE and area swept.
 \details{
 Two modes of use:
 \itemize{
-\item Provide \code{cpue} directly for a simple calculation.
-\item Provide \code{catch} and \code{effort} to compute CPUE first, then scale by area.
+\item Provide \code{cpue} directly
+\item Provide \code{catch} and \code{effort} separately
 }
-
-Any additional arguments in \code{...} are forwarded to \code{\link[=cpue]{cpue()}}.
 }
 \examples{
 salmon_cpue <- cpue(catch = 2, effort = 2)
-biomass_index(cpue = salmon_cpue, area_swept = 5)
+biomass_index(salmon_cpue, 5)
 }
 \seealso{
-\code{\link[=cpue]{cpue()}} to compute CPUE values from raw catch and effort.
+See \code{\link[=cpue]{cpue()}} for more details.
 }

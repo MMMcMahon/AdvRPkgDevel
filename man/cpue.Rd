@@ -14,7 +14,7 @@ cpue(catch, ...)
   effort,
   gear_factor = 1,
   method = c("ratio", "log"),
-  verbose = getOption("fishr.verbose", FALSE),
+  verbose = getOption("fishr.verbose", default = FALSE),
   ...
 )
 
@@ -22,35 +22,34 @@ cpue(catch, ...)
   catch,
   gear_factor = 1,
   method = c("ratio", "log"),
-  verbose = getOption("fishr.verbose", FALSE),
+  verbose = getOption("fishr.verbose", default = FALSE),
   ...
 )
 
 \method{cpue}{default}(catch, ...)
 }
 \arguments{
-\item{catch}{Input data: a numeric vector of catch values, or a data frame
-containing catch and effort columns.}
+\item{catch}{Numeric vector of catch (e.g., \strong{kg}) or a data.frame with
+"catch" and "effort" columns}
 
-\item{...}{Additional arguments passed to methods.}
+\item{...}{Additional arguments passed on to methods}
 
-\item{effort}{Numeric vector of effort (e.g., hours)}
+\item{effort}{Numeric vector of effort (e.g., \strong{hours})}
 
-\item{gear_factor}{Numeric scalar for gear standardization (default 1)}
+\item{gear_factor}{Numeric adjustment for gear standardization (default is 1)}
 
-\item{method}{Character; one of \code{"ratio"} (default) or \code{"log"}.}
+\item{method}{Character; one of \code{"ratio"} or \code{"log"}}
 
 \item{verbose}{Logical; print processing info? Default from
 \code{getOption("fishr.verbose", FALSE)}.}
 }
 \value{
-A numeric vector of CPUE values
+A numeric vector of CPUE values of the class 'cpue_result'
 }
 \description{
-Calculates CPUE from catch and effort data, with optional gear
-standardization. Supports ratio and log-transformed methods.
+Calculates CPUE from catch and effort data, with optional gear standardization.
 }
 \examples{
 cpue(100, 10)
-cpue(c(100, 200), c(10, 20), method = "log")
+cpue(100, 10, gear_factor = 0.5)
 }

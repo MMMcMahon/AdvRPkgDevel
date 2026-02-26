@@ -1,24 +1,27 @@
-#' Calculate Biomass Index
+#' Calculate biomass index
 #'
 #' Calculates biomass index from CPUE and area swept.
 #'
 #' @param cpue Numeric vector of CPUE values
-#' @param area_swept Numeric vector of area swept (e.g., km²)
-#' @inheritParams cpue
-#' @inheritDotParams cpue
-#' @seealso [cpue()] to compute CPUE values from raw catch and effort.
-#' @return A numeric vector of biomass index values
-#' @export
+#' @param catch Numeric vector of catch (e.g., **kg**)
+#' @param area_swept Numeric vector of area swept (e.g., km^2^ )
+#' @inheritParams cpue.numeric
+#' @inheritDotParams cpue.numeric
+#'
 #' @details
 #' Two modes of use:
 #'
-#' - Provide `cpue` directly for a simple calculation.
-#' - Provide `catch` and `effort` to compute CPUE first, then scale by area.
+#' - Provide `cpue` directly
+#' - Provide `catch` and `effort` separately
 #'
-#' Any additional arguments in `...` are forwarded to [cpue()].
+#' @seealso See [cpue()] for more details.
+#'
+#' @returns A numeric vector of biomass index values
+#' @export
+#'
 #' @examples
 #' salmon_cpue <- cpue(catch = 2, effort = 2)
-#' biomass_index(cpue = salmon_cpue, area_swept = 5)
+#' biomass_index(salmon_cpue, 5)
 biomass_index <- function(
   cpue = NULL,
   area_swept,
@@ -28,11 +31,18 @@ biomass_index <- function(
   ...
 ) {
   rlang::check_dots_used()
-  if (verbose) {
-    message("Processing ", length(cpue), " records")
-  }
-  if (is.null(cpue) && (!is.null(catch) && !is.null(effort))) {
+
+  if (is.null(cpue) && !is.null(catch) && !is.null(effort)) {
     cpue <- cpue(catch, effort, ...)
   }
+
+  if (is.null(cpue)) {
+    stop("Must provide either 'cpue' or both 'catch' and 'effort'.")
+  }
+
+  if (verbose) {
+    message("Calculating biomass index for ", length(cpue), " records")
+  }
+
   cpue * area_swept
 }

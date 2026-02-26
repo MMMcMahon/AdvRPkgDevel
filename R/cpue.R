@@ -1,46 +1,43 @@
 #' Calculate Catch Per Unit Effort (CPUE)
 #'
-#' Calculates CPUE from catch and effort data, with optional gear
-#' standardization. Supports ratio and log-transformed methods.
+#' Calculates CPUE from catch and effort data, with optional gear standardization.
 #'
-#' @param catch Input data: a numeric vector of catch values, or a data frame
-#'   containing catch and effort columns.
-#' @param ... Additional arguments passed to methods.
+#' @param catch Numeric vector of catch (e.g., **kg**) or a data.frame with
+#'     "catch" and "effort" columns
+#' @param ... Additional arguments passed on to methods
 #'
 #' @export
 cpue <- function(catch, ...) {
   UseMethod("cpue")
 }
 
-
 #' @rdname cpue
-#'
-#' @param effort Numeric vector of effort (e.g., hours)
-#' @param gear_factor Numeric scalar for gear standardization (default 1)
-#' @param method Character; one of `"ratio"` (default) or `"log"`.
+#' @param effort Numeric vector of effort (e.g., **hours**)
+#' @param gear_factor Numeric adjustment for gear standardization (default is 1)
+#' @param method Character; one of `"ratio"` or `"log"`
 #' @param verbose Logical; print processing info? Default from
 #'   `getOption("fishr.verbose", FALSE)`.
 #'
-#' @return A numeric vector of CPUE values
+#' @return A numeric vector of CPUE values of the class 'cpue_result'
 #' @export
 #'
 #' @examples
 #' cpue(100, 10)
-#' cpue(c(100, 200), c(10, 20), method = "log")
+#' cpue(100, 10, gear_factor = 0.5)
 cpue.numeric <- function(
   catch,
   effort,
   gear_factor = 1,
   method = c("ratio", "log"),
-  verbose = getOption("fishr.verbose", FALSE),
+  verbose = getOption("fishr.verbose", default = FALSE),
   ...
 ) {
-  method <- match.arg(method)
-
   validate_numeric_inputs(catch = catch, effort = effort)
 
+  method <- match.arg(method)
+
   if (verbose) {
-    message("Processing ", length(catch), " records using ", method, " method")
+    message("Processing ", length(catch), " records")
   }
 
   raw_cpue <- switch(
@@ -50,30 +47,20 @@ cpue.numeric <- function(
   )
 
   new_cpue_result(
-    values = raw_cpue * gear_factor,
+    raw_cpue * gear_factor,
     method = method,
     gear_factor = gear_factor,
     n_records = length(catch)
   )
 }
 
-#' @noRd
-new_cpue_result <- function(values, method, gear_factor, n_records) {
-  structure(
-    values, # The data
-    method = method, # Attributes specifying metadata
-    gear_factor = gear_factor,
-    n_records = n_records,
-    class = "cpue_result" # class is a special attribute
-  )
-}
 #' @rdname cpue
 #' @export
 cpue.data.frame <- function(
   catch,
   gear_factor = 1,
   method = c("ratio", "log"),
-  verbose = getOption("fishr.verbose", FALSE),
+  verbose = getOption("fishr.verbose", default = FALSE),
   ...
 ) {
   if (!"catch" %in% names(catch)) {
@@ -83,11 +70,9 @@ cpue.data.frame <- function(
     stop("Column 'effort' not found in data frame.", call. = FALSE)
   }
 
-  # We can then call the numeric method by extracting the relevant columns and passing them to cpue() again.
-  # This way we reuse the existing logic and maintain a single source of truth for the CPUE calculation.
   cpue(
-    catch = catch[["catch"]],
-    effort = catch[["effort"]],
+    catch = catch$catch,
+    effort = catch$effort,
     gear_factor = gear_factor,
     method = method,
     verbose = verbose,
@@ -99,4 +84,36 @@ cpue.data.frame <- function(
 #' @export
 cpue.default <- function(catch, ...) {
   stop("Unsupported input type for cpue(): ", class(catch), call. = FALSE)
+}
+
+#' @export
+print.cpue_result <- function(x, ...) {
+  cat("CPUE Results for", length(x), "records\n")
+  cat("Method: ", attr(x, "method"), "\n")
+  cat("Gear factor: ", attr(x, "gear_factor"), "\n")
+  cat("Values: ", round(x, 2), "\n")
+  invisible(x)
+}
+
+
+#' @export
+summary.cpue_result <- function(object, ...) {
+  cat("Survery Result Summary\n")
+  cat("----------------------\n")
+  cat("Method:      ", attr(object, "method"), "\n")
+  cat("Gear factor: ", attr(object, "gear_factor"), "\n")
+  cat("Records:     ", attr(object, "n_records"), "\n")
+  cat("Mean CPUE:   ", round(mean(object), 2), "\n")
+  cat("SD of CPUE:  ", round(stats::sd(object), 2), "\n")
+  invisible(object)
+}
+
+new_cpue_result <- function(values, method, gear_factor, n_records) {
+  structure(
+    values,
+    method = method,
+    gear_factor = gear_factor,
+    n_records = n_records,
+    class = "cpue_result"
+  )
 }

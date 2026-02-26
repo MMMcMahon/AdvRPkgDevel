@@ -4,7 +4,7 @@
       cpue("five", 10)
     Condition
       Error:
-      ! 'catch' must be numeric, got character.
+      ! Unsupported input type for cpue(): character
 
 # cpue warns when catch and effor lengths differ
 
@@ -14,7 +14,10 @@
       Warning in `catch / effort`:
       longer object length is not a multiple of shorter object length
     Output
-      [1] 10 10 30
+      CPUE Results for 3 records
+      Method:  ratio 
+      Gear factor:  1 
+      Values:  10 10 30 
 
 # cpue uses verbosit when option is set to TRUE
 
@@ -23,5 +26,18 @@
     Message
       Processing 1 records
     Output
-      [1] 10
+      CPUE Results for 1 records
+      Method:  ratio 
+      Gear factor:  1 
+      Values:  10 
+
+# cpue print method works
+
+    Code
+      print(result)
+    Output
+      CPUE Results for 2 records
+      Method:  ratio 
+      Gear factor:  1 
+      Values:  10 10 
 
